@@ -44,19 +44,19 @@ These analyses were performed as supplementary assessments of the generalizabili
 
 ---
 
-### 3. Orange_Workflow.png
+### 3. Orange_Workflow.ows
 
-`Orange_Workflow.png` provides a graphical representation of the Orange Data Mining workflow used for spectral preprocessing and machine learning analysis.
+The Orange_Workflow.ows file contains the Orange Data Mining workflow used for spectral preprocessing and machine learning analysis. The editable .ows file includes the complete sequence of widgets, their connections, and the parameters used throughout the analysis.
 
-The workflow illustrates the principal analytical steps, including:
+The workflow includes:
 
-- Spectral preprocessing
-- Spectral transformation
-- Selection of spectral regions
-- Machine learning classification
-- Model evaluation
+Spectral preprocessing
+Spectral transformation
+Selection of spectral regions
+Machine learning classification
+Model evaluation
 
-The analyses were performed using **Orange Data Mining version 3.3.5**.
+The analyses were performed using Orange Data Mining version 3.3.5. The .ows file can be opened and inspected directly in the Orange Data Mining environment.
 
 ---
 
