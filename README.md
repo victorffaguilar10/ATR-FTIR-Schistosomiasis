@@ -1,101 +1,122 @@
-# ATR-FTIR Schistosomiasis — Orange Workflow
+# ATR-FTIR Schistosomiasis: Orange Workflow
 
-This repository contains the Orange workflow and data files used for the exploratory analysis and machine-learning classification of schistosomiasis-associated ATR-FTIR serum spectra.
+This repository contains the Orange Data Mining workflow and the data files used for the exploratory analysis and machine-learning classification of schistosomiasis-associated ATR-FTIR serum spectra.
 
-## 1. Software
+## 1. Requirements
 
-First, download and install **Orange Data Mining**.
+Install [Orange Data Mining](https://orangedatamining.com).
 
-After installation, download the workflow from this repository:
+The workflow uses widgets that are not included in the base Orange installation. After installing the software, go to **Options > Add-ons**, select the two add-ons below, click **OK**, and restart Orange:
 
-Workflow.ows
+* **Spectroscopy, version 0.9.2.** Provides the `Preprocess Spectra` and `Spectra` widgets and other spectral preprocessing widgets, including MNF and PCA denoising.
+* **Explain, version 0.6.11.** Provides the `Explain Model` widget.
 
-Open the Workflow.ows file in Orange to access the workflow used in the analysis. The user should then load the corresponding datasets and establish the connections between the preprocessing and machine-learning components as described below.
+Without these add-ons, the workflow may open with broken or unavailable widgets.
 
----
+## 2. Files in this repository
 
-## 2. Exploratory spectral analysis
+* `Workflow.ows`: Orange workflow for exploratory analysis, spectral preprocessing, machine learning, model evaluation, model interpretation, and locality-effect analysis.
+* `General_and_truncated_spectra.xlsx`: spectra covering the complete spectral range (`General spectra` worksheet) and the selected spectral regions (`Truncated spectra` worksheet).
+* `Localidade_truncado.xlsx`: spectra organized according to the geographical origin of the samples, used for the locality-effect analysis and independent validation across study sites.
 
-The first step of the workflow consists of the exploratory analysis of the ATR-FTIR spectra.
+## 3. Data format
 
-In the first **File** widget, upload:
+The `.xlsx` files contain the mean spectrum of each sample, obtained by averaging the two technical replicates acquired for each sample. No normalization or additional spectral preprocessing was applied to these exported spectra; all subsequent spectral preprocessing is performed within the Orange workflow.
 
-`General_and_truncated_spectra.xlsx`
+Each row of the spreadsheet corresponds to one sample. The `class` column is the target variable and contains the values `control` and `positive`; in Orange, this column must be correctly recognized as the target variable. The remaining columns contain the spectral values at each wavenumber (cm⁻¹).
 
-This Excel file contains two worksheets:
+## 4. Opening the workflow
 
-* **General spectra:** the complete spectral range used for exploratory analysis.
-* **Truncated spectra:** spectra restricted to the spectral regions of interest used in subsequent analyses.
+Install Orange and the required add-ons described in Section 1. Download `Workflow.ows` and the `.xlsx` files from this repository, and open `Workflow.ows` in Orange.
 
-For the initial exploratory analysis, select the **General spectra** worksheet.
+The `File` widgets may appear with a red X. This is expected because the workflow stores the file paths from the original computer on which it was created. Double-click each `File` widget and select the corresponding file from your computer.
 
----
+## 5. Main analyses
 
-## 3. Machine-learning analysis
+### 5.1 Exploratory analysis
 
-The machine-learning analyses use the same General_and_truncated_spectra.xlsx file.
+In the first `File` widget, load `General_and_truncated_spectra.xlsx` and select the `General spectra` worksheet.
 
-For these analyses, select the "Truncated spectra" worksheet, corresponding to the spectral regions used for classification and add the truncated data to the "File 1" section.
+For exploratory analysis, principal component analysis (PCA) is performed after rubberband baseline correction and Min-Max normalization. The workflow allows visualization of the resulting PCA scores using `Scatter Plot` and `Data Table`. The spectra can also be visualized using the `Spectra` widget after the appropriate spectral preprocessing and color assignment.
 
-The workflow contains the different spectral preprocessing methods and machine-learning algorithms used in the analysis. The workflow itself contains the preprocessing methods, machine-learning algorithms, and evaluation widgets; the user must connect these components according to the analysis to be performed. To reproduce the classification results, the user should connect the desired preprocessing method to the selected machine-learning algorithm within the workflow. The output of the selected machine-learning algorithm should then be connected to the Test & Score widget for model evaluation and to the Explain Model widget for model interpretation.
+### 5.2 Machine-learning classification
 
-Thus, the workflow provides the preprocessing methods, machine-learning algorithms, and evaluation widgets, while the user must establish the corresponding connections between these components to perform the analyses. 
+In the `File (1)` widget, load `General_and_truncated_spectra.xlsx` and select the `Truncated spectra` worksheet.
 
----
+The spectral analysis focuses on the regions 3050–2800 cm⁻¹ and 1800–900 cm⁻¹, corresponding to the lipid and fingerprint regions, respectively.
 
-## 4. Locality-effect analysis
+The workflow includes all preprocessing strategies described in the manuscript:
 
-As suggested by the reviewers, additional analyses were performed to investigate the potential effect of sample locality on model performance.
+* Raw spectra
+* Min-Max normalization combined with rubberband correction
+* First derivative
+* Second derivative
+* Adaptive iteratively reweighted penalized least squares (airPLS) smoothing
+* PCA-based denoising
 
-The location-based analysis is identified in the workflow by the **“Loacalidade”** and **“File 3”** sections. **It is in these sections that the dataset containing information regarding the sample locations must be uploaded.**
+The following machine-learning algorithms are included in the workflow:
 
-The corresponding spectral data are provided in:
+* Neural Network
+* Random Forest
+* Logistic Regression
+* k-Nearest Neighbors (kNN)
+* AdaBoost
+* Naive Bayes
+* Support Vector Machine (SVM)
 
-"Localidade_truncado.xlsx"
+To reproduce an analysis, connect the desired preprocessing method to the desired machine-learning algorithm. The output of the algorithm is then connected to `Test and Score` for model evaluation and to `Explain Model` for model interpretation.
 
-This file contains the spectra organized  according to the geographical origin of the samples, allowing the potential effect of locality to be evaluated.
+Model performance was evaluated using stratified 10-fold cross-validation, preserving the proportion of positive and control samples in each fold.
 
-## 5. Files in this repository
+The results for each combination of preprocessing method and algorithm are described in the associated publication. To verify the analysis, compare the output of `Test and Score` with the published results.
 
-| File                            | Description                                                                                                                                           |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Workflow.ows`                  | Orange workflow used for exploratory analysis, preprocessing, machine learning, model evaluation, model interpretation, and locality-effect analysis. |
-| `General_and_truncated_spectra.xlsx` | Dataset containing the general spectral range and the truncated spectral regions used in the analyses.                                                |
-| `Localidade_truncado.xlsx`             | Spectral data used for the locality-effect analysis and independent validation across study sites.                                                    |
+## 6. Locality-effect analysis
 
-## 6. Reproducibility
+This additional analysis was performed at the reviewers' request to investigate whether classifier performance could be influenced by differences associated with the geographical origin of the samples.
 
-To reproduce the Orange-based analyses:
+The analysis is identified in the workflow by the sections **`Localidade`** and **`File 3`**. Load `Localidade_truncado.xlsx` in both sections.
 
-1. Install **Orange Data Mining**.
-2. Download `Workflow.ows`.
-3. Download the required dataset files from this repository.
+### External validation
+
+In the first flow, starting from `Localidade`, the Random Forest classifier is trained exclusively using samples from **Januária, Minas Gerais**, which is the only study site containing both classes (positive and control).
+
+The samples from Januária are selected using the `Site is Januária` step, processed using the first derivative, and then classified using Random Forest.
+
+The independent test set consists of samples from **Jaboatão dos Guararapes, Pernambuco**, and **Belo Horizonte, Minas Gerais**. These samples are selected using the `Site is not Januária` step and are entered into `Test and Score (1)` as test data, with the evaluation mode set to **Test on test data**.
+
+Thus, samples from Jaboatão dos Guararapes and Belo Horizonte are not used during model training and constitute an independent test set.
+
+### Internal evaluation within Januária
+
+In the second flow, starting from `File 3`, only samples from Januária are selected using the `Site is Januária (1)` step. These samples undergo the same first-derivative preprocessing and Random Forest classification and are evaluated using `Test and Score (2)`.
+
+In both locality-based analyses, the preprocessing and classification method are **first derivative + Random Forest**, consistent with the original analysis.
+
+## 7. Step-by-step reproduction
+
+1. Install Orange Data Mining.
+2. Install the **Spectroscopy (0.9.2)** and **Explain (0.6.11)** add-ons.
+3. Download `Workflow.ows` and the `.xlsx` files from this repository.
 4. Open `Workflow.ows` in Orange.
-5. In each **File** widget, select the corresponding dataset.
-6. For the main analyses, use `General_and_truncated_spectra.xlsx` as indicated in the workflow.
-7. To analyze the location effect, download the `Localidade_truncado.xlsx` file and add it to the **“Localidade”** and **“File 3”** collections in the workflow to perform the analyses.
-
+5. In each `File` section, select the corresponding file and worksheet as described in Sections 5 and 6.
+6. For the main machine-learning analysis, connect the desired preprocessing method to the desired algorithm.
+7. Connect the model to `Test and Score` for evaluation and, when applicable, to `Explain Model` for model interpretation.
+8. For the locality-effect analysis, load `Localidade_truncado.xlsx` in the **`Localidade`** and **`File 3`** sections and follow the corresponding workflow.
+9. Compare the resulting performance metrics with those reported in the associated publication.
 
 ## Citation
 
-If these data are used, reanalyzed, or incorporated into other studies, users are requested to cite the original publication:
+If these data are used, reanalyzed, or incorporated into other studies, please cite the original publication:
 
 **ATR-FTIR Spectroscopy Combined with Machine Learning Enables Detection of Schistosomiasis-Associated Biochemical Signatures in Human Serum.**
 
 Please also acknowledge this repository when appropriate.
 
----
-
 ## License
 
-The materials in this repository are made available under the **Creative Commons Zero v1.0 Universal (CC0 1.0)** license.
-
-The authors waive, to the extent permitted by law, copyright and related rights to the materials deposited in this repository.
-
-Although attribution is not a legal requirement under CC0, users are strongly encouraged to cite the original publication when using or reanalyzing these data.
-
----
+The materials in this repository are made available under the **Creative Commons Zero v1.0 Universal (CC0 1.0)** license. The authors waive, to the extent permitted by law, copyright and related rights to the materials deposited in this repository. Although attribution is not a legal requirement under CC0, users are strongly encouraged to cite the original publication.
 
 ## Contact
 
-For questions regarding the dataset or the analytical workflow, please contact the corresponding author of the associated publication.
+For questions regarding the data or the analytical workflow, please contact the corresponding author of the associated publication.
+
