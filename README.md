@@ -74,8 +74,8 @@ To reproduce the Orange-based analyses:
 4. Open `Workflow.ows` in Orange.
 5. In each **File** widget, select the corresponding dataset.
 6. For the main analyses, use `General_and_truncated_spectra.xlsx` as indicated in the workflow.
-7. To analyze the location effect, download the `Localidade_truncado.xlsx` file and add it to the **“Localidade”** and **“File 3”** collections in the workflow to perform the analyses..
-8. Follow the connections between preprocessing, machine-learning, evaluation, and model-interpretation 
+7. To analyze the location effect, download the `Localidade_truncado.xlsx` file and add it to the **“Localidade”** and **“File 3”** collections in the workflow to perform the analyses.
+
 
 ## Citation
 
