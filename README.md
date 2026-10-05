@@ -1,82 +1,83 @@
-# ATR-FTIR Spectroscopy and Machine Learning for Schistosomiasis Detection
+# ATR-FTIR Schistosomiasis — Orange Workflow
 
-## Description
+This repository contains the Orange workflow and data files used for the exploratory analysis and machine-learning classification of schistosomiasis-associated ATR-FTIR serum spectra.
 
-This repository contains the raw ATR-FTIR serum spectral data and the analytical workflow associated with the study:
+## 1. Software
 
-**ATR-FTIR Spectroscopy Combined with Machine Learning Enables Detection of Schistosomiasis-Associated Biochemical Signatures in Human Serum**
+First, download and install **Orange Data Mining**.
 
-The materials are provided to promote transparency, independent inspection, and reproducibility of the spectral and machine learning analyses reported in the manuscript.
+After installation, download the workflow from this repository:
 
----
+Workflow.ows
 
-## Repository contents
-
-### 1. Raw.Spectra.ods
-
-`Raw.Spectra.ods` contains the raw ATR-FTIR spectral data used in the main analysis.
-
-The spreadsheet contains separate worksheets with:
-
-- **Duplicate spectra:** individual replicate spectra acquired from the serum samples.
-- **Mean spectra:** averaged spectra obtained from the corresponding duplicate measurements.
-
-The sample groups are identified as follows:
-
-- 🟨 **Yellow:** Control individuals from a non-endemic area
-- 🟦 **Blue:** Control individuals from an endemic area
-- 🟩 **Green:** *Schistosoma mansoni*-infected individuals (SCH+)
-
-The inclusion of both endemic-area and non-endemic-area controls allows inspection of the spectral data across the different study populations.
+Open the `Workflow.ows` file in Orange to visualize the complete workflow used in the analysis.
 
 ---
 
-### 2. Raw_Spectra_Sup.ods
+## 2. Exploratory spectral analysis
 
-`Raw_Spectra_Sup.ods` contains the spectral data associated with the supplementary analyses assessing the robustness and site-related performance of the classification approach.
+The first step of the workflow consists of the exploratory analysis of the ATR-FTIR spectra.
 
-This file includes the data used for:
+In the first **File** widget, upload:
 
-- **Leave-one-site-out analysis**, in which samples from one study site were excluded from model training and used for evaluation.
-- **Within-site analysis**, in which classification performance was evaluated within the respective study sites.
+`General_and_truncated_spectra.xlsx`
 
-These analyses were performed as supplementary assessments of the generalizability and robustness of the spectral classification approach across study locations.
+This file contains two datasets:
 
----
+* **General spectra:** the complete spectral range used for exploratory analysis.
+* **Truncated spectra:** spectra restricted to the spectral regions of interest used in subsequent analyses.
 
-### 3. Orange_Workflow.ows
+For the initial exploratory analysis, select the **General spectra** dataset.
 
-The Orange_Workflow.ows file contains the Orange Data Mining workflow used for spectral preprocessing and machine learning analysis. The editable .ows file includes the complete sequence of widgets, their connections, and the parameters used throughout the analysis.
-
-The workflow includes:
-
-Spectral preprocessing
-Spectral transformation
-Selection of spectral regions
-Machine learning classification
-Model evaluation
-
-The analyses were performed using Orange Data Mining version 3.3.5. The .ows file can be opened and inspected directly in the Orange Data Mining environment.
+The workflow allows visualization and exploration of the spectral profiles of the samples, including comparisons between the study groups.
 
 ---
 
-## Main machine learning analysis
+## 3. Machine-learning analysis
 
-Multiple spectral preprocessing strategies and supervised machine learning algorithms were evaluated for classification of serum spectra according to *S. mansoni* infection status.
+For the machine-learning analysis, the `General_and_truncated_spectra.xlsx` file is also used, with the **truncated spectra** corresponding to the selected spectral regions of interest.
 
-First-derivative preprocessing combined with a Random Forest classifier showed the best performance in the initial cross-validation analysis.
+Because the workflow includes neural-network-based analyses, the different preprocessing methods are connected to the different machine-learning algorithms. The resulting models are then connected to:
 
-To further assess the robustness of the selected classifier, a nested cross-validation analysis was subsequently performed using an outer 10-fold stratified cross-validation and an inner 4-fold stratified cross-validation for hyperparameter selection.
+* **Test & Score**, for model evaluation;
+* **Explain Model**, for model interpretation.
 
----
-
-## Data organization
-
-The spectral datasets provided in this repository are intended to allow independent inspection of the raw spectral measurements and the analytical workflow described in the manuscript.
-
-The main dataset (`Raw.Spectra.ods`) corresponds to the primary analysis, whereas `Raw_Spectra_Sup.xslx` corresponds specifically to the supplementary site-related analyses.
+The workflow therefore allows the user to reproduce the preprocessing, classification, model evaluation, and model interpretation steps used in the analysis. For this step, add the truncated data to the "File 1" section.
 
 ---
+
+## 4. Locality-effect analysis
+
+As suggested by the reviewers, additional analyses were performed to investigate the potential effect of sample locality on model performance.
+
+The locality-based analysis is identified in the workflow by the **“Loacalidade”** section and the **“File 3”** widget. **This is where the dataset containing the information related to sample locality should be uploaded.**
+
+The corresponding spectral data are provided in:
+
+"Localidade_truncado.xlsx"
+
+This file contains the spectra organized  according to the geographical origin of the samples, allowing the potential effect of locality to be evaluated.
+
+## 5. Files in this repository
+
+| File                            | Description                                                                                                                                           |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Workflow.ows`                  | Orange workflow used for exploratory analysis, preprocessing, machine learning, model evaluation, model interpretation, and locality-effect analysis. |
+| `General_and_truncated_spectra.xlsx` | Dataset containing the general spectral range and the truncated spectral regions used in the analyses.                                                |
+| `Localidade_truncado.xlsx`             | Spectral data used for the locality-effect analysis and independent validation across study sites.                                                    |
+
+## 6. Reproducibility
+
+To reproduce the Orange-based analyses:
+
+1. Install **Orange Data Mining**.
+2. Download `Workflow.ows`.
+3. Download the required dataset files from this repository.
+4. Open `Workflow.ows` in Orange.
+5. In each **File** widget, select the corresponding dataset.
+6. For the main analyses, use `General_and_truncated_spectra` as indicated in the workflow.
+7. For the locality-effect analysis, go to the **“Localidade”** section and use **“File 3”** to upload the corresponding locality dataset.
+8. Follow the connections between preprocessing, machine-learning, evaluation, and model-interpretation 
 
 ## Citation
 
