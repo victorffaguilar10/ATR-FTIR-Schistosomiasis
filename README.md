@@ -10,7 +10,7 @@ After installation, download the workflow from this repository:
 
 Workflow.ows
 
-Open the `Workflow.ows` file in Orange to visualize the complete workflow used in the analysis.
+Open the Workflow.ows file in Orange to access the workflow used in the analysis. The user should then load the corresponding datasets and establish the connections between the preprocessing and machine-learning components as described below.
 
 ---
 
@@ -35,14 +35,11 @@ For the initial exploratory analysis, select the **General spectra** worksheet.
 
 The machine-learning analyses use the same General_and_truncated_spectra.xlsx file.
 
-For these analyses, select the "Truncated spectra" worksheet, corresponding to the spectral regions used for classification.
+For these analyses, select the "Truncated spectra" worksheet, corresponding to the spectral regions used for classification and add the truncated data to the "File 1" section.
 
-The workflow contains the different spectral preprocessing methods and machine-learning algorithms used in the analysis. To reproduce the classification results, the user should connect the desired preprocessing method to the selected machine-learning algorithm within the workflow. The output of the resulting model should then be connected to:
+The workflow contains the different spectral preprocessing methods and machine-learning algorithms used in the analysis. The workflow itself contains the preprocessing methods, machine-learning algorithms, and evaluation widgets; the user must connect these components according to the analysis to be performed. To reproduce the classification results, the user should connect the desired preprocessing method to the selected machine-learning algorithm within the workflow. The output of the selected machine-learning algorithm should then be connected to the Test & Score widget for model evaluation and to the Explain Model widget for model interpretation.
 
-Test & Score, for model evaluation;
-Explain Model, for model interpretation.
-
-Thus, the workflow provides the preprocessing methods, machine-learning algorithms, and evaluation widgets, while the user must establish the corresponding connections between these components to perform the analyses. For this step, add the truncated data to the "File 1" section.
+Thus, the workflow provides the preprocessing methods, machine-learning algorithms, and evaluation widgets, while the user must establish the corresponding connections between these components to perform the analyses. 
 
 ---
 
