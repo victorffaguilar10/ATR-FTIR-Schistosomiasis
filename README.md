@@ -22,25 +22,27 @@ In the first **File** widget, upload:
 
 `General_and_truncated_spectra.xlsx`
 
-This file contains two datasets:
+This Excel file contains two worksheets:
 
 * **General spectra:** the complete spectral range used for exploratory analysis.
 * **Truncated spectra:** spectra restricted to the spectral regions of interest used in subsequent analyses.
 
-For the initial exploratory analysis, select the **General spectra** dataset.
+For the initial exploratory analysis, select the **General spectra** worksheet.
 
 ---
 
 ## 3. Machine-learning analysis
 
-For the machine-learning analysis, the `General_and_truncated_spectra.xlsx` file is also used, with the **truncated spectra** corresponding to the selected spectral regions of interest.
+The machine-learning analyses use the same General_and_truncated_spectra.xlsx file.
 
-Because the workflow includes neural-network-based analyses, the different preprocessing methods are connected to the different machine-learning algorithms. The resulting models are then connected to:
+For these analyses, select the "Truncated spectra" worksheet, corresponding to the spectral regions used for classification.
 
-* **Test & Score**, for model evaluation;
-* **Explain Model**, for model interpretation.
+The workflow contains the different spectral preprocessing methods and machine-learning algorithms used in the analysis. To reproduce the classification results, the user should connect the desired preprocessing method to the selected machine-learning algorithm within the workflow. The output of the resulting model should then be connected to:
 
-The workflow therefore allows the user to reproduce the preprocessing, classification, model evaluation, and model interpretation steps used in the analysis. For this step, add the truncated data to the "File 1" section.
+Test & Score, for model evaluation;
+Explain Model, for model interpretation.
+
+Thus, the workflow provides the preprocessing methods, machine-learning algorithms, and evaluation widgets, while the user must establish the corresponding connections between these components to perform the analyses. For this step, add the truncated data to the "File 1" section.
 
 ---
 
