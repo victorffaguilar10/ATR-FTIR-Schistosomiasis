@@ -48,7 +48,7 @@ The workflow therefore allows the user to reproduce the preprocessing, classific
 
 As suggested by the reviewers, additional analyses were performed to investigate the potential effect of sample locality on model performance.
 
-The locality-based analysis is identified in the workflow by the **“Loacalidade”** section and the **“File 3”** widget. **This is where the dataset containing the information related to sample locality should be uploaded.**
+The location-based analysis is identified in the workflow by the **“Loacalidade”** and **“File 3”** sections. **It is in these sections that the dataset containing information regarding the sample locations must be uploaded.**
 
 The corresponding spectral data are provided in:
 
