@@ -29,8 +29,6 @@ This file contains two datasets:
 
 For the initial exploratory analysis, select the **General spectra** dataset.
 
-The workflow allows visualization and exploration of the spectral profiles of the samples, including comparisons between the study groups.
-
 ---
 
 ## 3. Machine-learning analysis
@@ -75,7 +73,7 @@ To reproduce the Orange-based analyses:
 3. Download the required dataset files from this repository.
 4. Open `Workflow.ows` in Orange.
 5. In each **File** widget, select the corresponding dataset.
-6. For the main analyses, use `General_and_truncated_spectra` as indicated in the workflow.
+6. For the main analyses, use `General_and_truncated_spectra.xlsx` as indicated in the workflow.
 7. For the locality-effect analysis, go to the **“Localidade”** section and use **“File 3”** to upload the corresponding locality dataset.
 8. Follow the connections between preprocessing, machine-learning, evaluation, and model-interpretation 
 
