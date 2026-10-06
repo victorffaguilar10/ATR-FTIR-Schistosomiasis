@@ -51,7 +51,7 @@ The workflow includes all preprocessing strategies described in the manuscript:
 * Min-Max normalization combined with rubberband correction
 * First derivative
 * Second derivative
-* Adaptive iteratively reweighted penalized least squares (airPLS) smoothing
+* Adaptive Iteratively Reweighted Asymmetric Least Squares (ALSS)
 * PCA-based denoising
 
 The following machine-learning algorithms are included in the workflow:
