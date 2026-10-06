@@ -45,25 +45,6 @@ In the `File (1)` widget, load `General_and_truncated_spectra.xlsx` and select t
 
 The spectral analysis focuses on the regions 3050–2800 cm⁻¹ and 1800–900 cm⁻¹, corresponding to the lipid and fingerprint regions, respectively.
 
-The workflow includes all preprocessing strategies described in the manuscript:
-
-* Raw spectra
-* Min-Max normalization combined with rubberband correction
-* First derivative
-* Second derivative
-* Adaptive Iteratively Reweighted Asymmetric Least Squares (ALSS)
-* PCA-based denoising
-
-The following machine-learning algorithms are included in the workflow:
-
-* Neural Network
-* Random Forest
-* Logistic Regression
-* k-Nearest Neighbors (kNN)
-* AdaBoost
-* Naive Bayes
-* Support Vector Machine (SVM)
-
 To reproduce an analysis, connect the desired preprocessing method to the desired machine-learning algorithm. The output of the algorithm is then connected to `Test and Score` for model evaluation and to `Explain Model` for model interpretation.
 
 Model performance was evaluated using stratified 10-fold cross-validation, preserving the proportion of positive and control samples in each fold.
